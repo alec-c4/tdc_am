@@ -1,0 +1,107 @@
+---
+import { routes, href } from "../i18n/routes";
+import type { Locale, Dictionary } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+  /** Render inside a <section id="services"> with heading (home/teaser use); pass false to embed bare (services index page provides its own heading). */
+  withHeading?: boolean;
+  /** Home page nests this under its <h1>; the /services/ index page needs its own <h1>. */
+  headingLevel?: "h1" | "h2";
+}
+
+const { locale, dict, withHeading = true, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const s = dict.servicesSection;
+---
+
+<section class="wrap" id="services">
+  {withHeading && (
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">{s.eyebrow}</p>
+        <Heading class="section-title">{s.title}</Heading>
+      </div>
+      <p class="section-note">{s.note}</p>
+    </div>
+  )}
+  <div class="svc-grid">
+    {dict.services.map((service, i) => (
+      <a class="svc-card" href={href(locale, routes.service(service.slug))}>
+        <span class="num mono">{String(i + 1).padStart(2, "0")}</span>
+        <h3>{service.title}</h3>
+        <p>{service.summary}</p>
+        <span class="go">{s.readMore} →</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .svc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .svc-card {
+    background: var(--stone);
+    padding: 32px 26px;
+    position: relative;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s ease;
+  }
+  .svc-card:nth-child(3n + 2) {
+    transform: translateY(22px);
+  }
+  .svc-card:hover {
+    transform: translateY(-2px);
+  }
+  .svc-card:nth-child(3n + 2):hover {
+    transform: translateY(20px);
+  }
+  .svc-card .num {
+    color: var(--apricot);
+    font-size: 0.85rem;
+  }
+  .svc-card h3 {
+    font-size: 1.25rem;
+    margin-top: 14px;
+  }
+  .svc-card p {
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+    margin-top: 10px;
+    flex: 1;
+  }
+  .svc-card .go {
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .svc-card:hover .go {
+    color: var(--apricot-deep);
+  }
+  @media (max-width: 920px) {
+    .svc-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .svc-card:nth-child(3n + 2) {
+      transform: none;
+    }
+    .svc-card:nth-child(3n + 2):hover {
+      transform: translateY(-2px);
+    }
+  }
+  @media (max-width: 600px) {
+    .svc-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

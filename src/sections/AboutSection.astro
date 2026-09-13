@@ -1,0 +1,87 @@
+---
+import type { Dictionary } from "../i18n";
+
+interface Props {
+  dict: Dictionary;
+  /** Home page shows a compact teaser; the /about/ page shows the full section with its own <h1>. */
+  headingLevel?: "h1" | "h2";
+}
+
+const { dict, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const a = dict.about;
+---
+
+<section class="wrap" id="about">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">{a.eyebrow}</p>
+      <Heading class="section-title">{a.title}</Heading>
+    </div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      {a.paragraphs.map((p) => (
+        <p>{p}</p>
+      ))}
+    </div>
+    <div class="fact-list">
+      {a.facts.map((fact) => (
+        <div class="fact">
+          <span>{fact.label}</span>
+          <span class="v mono">{fact.value}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    border: 1px solid var(--line);
+  }
+  .about-text {
+    padding: 32px;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .about-text p {
+    color: var(--ink-soft);
+    max-width: 50ch;
+  }
+  .fact-list {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .fact {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  .fact:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .fact .v {
+    color: var(--apricot-deep);
+    font-weight: 600;
+  }
+  @media (max-width: 820px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+    .about-text {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+</style>

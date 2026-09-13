@@ -1,0 +1,112 @@
+---
+import MobileNav from "./MobileNav.svelte";
+import { routes, href } from "../i18n/routes";
+import { locales, localeLabels, type Locale, type Dictionary } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  /** Route-relative path of the current page, used to swap locale while keeping the page. */
+  path: string;
+  dict: Dictionary;
+}
+
+const { locale, path, dict } = Astro.props;
+
+const navItems = [
+  { label: dict.nav.about, path: routes.about() },
+  { label: dict.nav.services, path: routes.services() },
+  { label: dict.nav.partners, path: routes.partners() },
+  { label: dict.nav.contact, path: routes.contact() },
+];
+---
+
+<header class="site-header">
+  <div class="wrap headerbar">
+    <a class="brand" href={href(locale, routes.home())} aria-label={dict.meta.siteName}>
+      <img src="/logo-mark.svg" alt="" width="34" height="34" />
+      <span>{dict.meta.siteName}</span>
+    </a>
+    <div class="nav-row">
+      <nav class="main-nav" aria-label={dict.nav.services}>
+        {navItems.map((item) => (
+          <a href={href(locale, item.path)} aria-current={path === item.path ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+      <div class="langs" role="group" aria-label="Language">
+        {locales.map((l: Locale) => (
+          <a href={href(l, path)} aria-current={l === locale ? "true" : "false"}>
+            {localeLabels[l]}
+          </a>
+        ))}
+      </div>
+      <MobileNav client:load locale={locale} path={path} navItems={navItems} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--stone) 90%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .headerbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 16px;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .main-nav {
+    display: flex;
+    gap: 28px;
+  }
+  .main-nav a {
+    text-decoration: none;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .main-nav a:hover,
+  .main-nav a[aria-current="page"] {
+    color: var(--ink);
+  }
+  .langs {
+    display: flex;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+  .langs a {
+    text-decoration: none;
+    color: var(--ink-soft);
+  }
+  .langs a[aria-current="true"] {
+    color: var(--apricot-deep);
+    font-weight: 700;
+  }
+  @media (max-width: 860px) {
+    .main-nav {
+      display: none;
+    }
+  }
+</style>

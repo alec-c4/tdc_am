@@ -1,17 +1,22 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../sections/Hero.astro";
+import ServicesGrid from "../sections/ServicesGrid.astro";
+import AboutSection from "../sections/AboutSection.astro";
+import TeamSection from "../sections/TeamSection.astro";
+import PartnersSection from "../sections/PartnersSection.astro";
+import CTASection from "../sections/CTASection.astro";
+import { getDictionary } from "../i18n";
 
+const locale = "hy" as const;
+const dict = getDictionary(locale);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout locale={locale} path="/" title={dict.meta.siteName} description={dict.meta.defaultDescription}>
+  <Hero locale={locale} dict={dict} />
+  <ServicesGrid locale={locale} dict={dict} />
+  <AboutSection dict={dict} />
+  <TeamSection dict={dict} />
+  <PartnersSection dict={dict} />
+  <CTASection locale={locale} dict={dict} />
+</BaseLayout>

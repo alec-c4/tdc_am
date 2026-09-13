@@ -1,0 +1,65 @@
+---
+import { routes, href } from "../i18n/routes";
+import type { Locale, Dictionary } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+const { locale, dict } = Astro.props;
+
+const links = [
+  { label: dict.nav.about, path: routes.about() },
+  { label: dict.nav.services, path: routes.services() },
+  { label: dict.nav.contact, path: routes.contact() },
+];
+---
+
+<footer class="wrap">
+  <div class="foot-grid">
+    <nav>
+      {links.map((item) => (
+        <a href={href(locale, item.path)}>{item.label}</a>
+      ))}
+    </nav>
+    <address>
+      {dict.contact.address} · {dict.contact.phone} ·
+      <a href={`mailto:${dict.contact.email}`}>{dict.contact.email}</a>
+    </address>
+  </div>
+  <div class="fine">
+    <span>{dict.footer.rights}</span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    padding-block: 40px;
+  }
+  .foot-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .foot-grid nav {
+    display: flex;
+    gap: 20px;
+  }
+  .foot-grid a {
+    text-decoration: none;
+  }
+  address {
+    font-style: normal;
+  }
+  .fine {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin-top: 24px;
+  }
+</style>

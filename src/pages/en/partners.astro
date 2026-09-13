@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PartnersSection from "../../sections/PartnersSection.astro";
+import CTASection from "../../sections/CTASection.astro";
+import { getDictionary } from "../../i18n";
+
+const locale = "en" as const;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout locale={locale} path="/partners/" title={dict.partners.title}>
+  <PartnersSection dict={dict} headingLevel="h1" />
+  <CTASection locale={locale} dict={dict} />
+</BaseLayout>

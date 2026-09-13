@@ -1,0 +1,183 @@
+/* Design tokens — "Ararat" system. See .ai/redesign-plan.md, section 1. */
+:root {
+  --basalt: #211d1a;
+  --basalt-raised: #2b2521;
+  --stone: #f2ebe0;
+  --stone-dim: #e4d8c5;
+  --ink: #241f1b;
+  --ink-soft: #6b5f52;
+  --apricot: #e07830;
+  --apricot-deep: #a6531f;
+  --line: #ddcfb8;
+  --focus: #e07830;
+
+  /* Fixed pair for content set directly on --basalt panels (e.g. CTASection), which stay
+     dark in both themes. Intentionally NOT redefined in the dark-scheme blocks below —
+     --stone/--ink flip with the site theme and would go dark-on-dark there. */
+  --on-basalt: #f2ebe0;
+  --on-basalt-soft: #c9bda8;
+
+  --font-display: "Bricolage Grotesque", "Noto Sans Armenian", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", "Noto Sans Armenian", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Noto Sans Armenian", monospace;
+
+  --content-max: 1200px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --stone: #1c1815;
+    --stone-dim: #262019;
+    --ink: #f2ebe0;
+    --ink-soft: #b7a996;
+    --line: #3c342c;
+    --apricot: #f0924e;
+    --apricot-deep: #f4a868;
+  }
+}
+
+:root[data-theme="dark"] {
+  --stone: #1c1815;
+  --stone-dim: #262019;
+  --ink: #f2ebe0;
+  --ink-soft: #b7a996;
+  --line: #3c342c;
+  --apricot: #f0924e;
+  --apricot-deep: #f4a868;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: var(--stone);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 56px);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--apricot-deep);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.94rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  font-family: var(--font-body);
+}
+
+.btn-primary {
+  background: var(--apricot);
+  color: #211205;
+}
+
+.btn-primary:hover {
+  background: var(--apricot-deep);
+}
+
+.btn-ghost {
+  border-color: var(--ink-soft);
+  color: var(--ink);
+  background: none;
+}
+
+.btn-ghost:hover {
+  border-color: var(--ink);
+}
+
+section {
+  padding-block: clamp(52px, 8vw, 92px);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+.section-note {
+  max-width: 38ch;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

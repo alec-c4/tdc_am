@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { routes, href } from "../i18n/routes";
+
+// The 404 page has no dedicated dictionary entry (it isn't part of the site map that
+// gets translated slug-by-slug); it renders once, in the default locale, like a static
+// host's fallback page.
+const locale = "hy" as const;
+const title = "Էջը չի գտնվել";
+---
+
+<BaseLayout locale={locale} path="/404/" title={title}>
+  <section class="wrap not-found">
+    <h1>{title}</h1>
+    <p>Հայցվող էջն այլևս գոյություն չունի կամ տեղափոխվել է։</p>
+    <a class="btn btn-primary" href={href(locale, routes.home())}>Գլխավոր էջ</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: clamp(80px, 14vw, 160px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .not-found h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .not-found p {
+    color: var(--ink-soft);
+    max-width: 44ch;
+  }
+  .not-found .btn {
+    margin-top: 12px;
+  }
+</style>

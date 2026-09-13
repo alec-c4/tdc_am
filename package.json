@@ -12,7 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.3.2"
+    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/svelte": "^9.0.1",
+    "astro": "^7.3.2",
+    "svelte": "^5.57.0"
   },
   "allowScripts": {
     "esbuild": true

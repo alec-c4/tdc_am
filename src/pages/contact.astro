@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactSection from "../sections/ContactSection.astro";
+import { getDictionary } from "../i18n";
+
+const locale = "hy" as const;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout locale={locale} path="/contact/" title={dict.contact.title}>
+  <ContactSection dict={dict} />
+</BaseLayout>

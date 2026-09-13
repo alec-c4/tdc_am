@@ -1,0 +1,102 @@
+---
+import StatCounter from "../components/StatCounter.svelte";
+import { routes, href } from "../i18n/routes";
+import type { Locale, Dictionary } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+const { locale, dict } = Astro.props;
+---
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">{dict.hero.eyebrow}</p>
+    <h1 class="hero-title">
+      {dict.hero.titleLead} <span class="accent">{dict.hero.titleAccent}</span>
+    </h1>
+    <p class="hero-lede">{dict.hero.lede}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href={href(locale, routes.contact())}>{dict.hero.ctaPrimary}</a>
+      <a class="btn btn-ghost" href={href(locale, routes.services())}>{dict.hero.ctaSecondary}</a>
+    </div>
+  </div>
+
+  <svg class="peaks" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <polygon
+      points="0,300 220,90 340,190 520,20 720,190 860,120 1200,300"
+      fill="none"
+      stroke="var(--apricot)"
+      stroke-width="2"
+      stroke-opacity="0.5"
+    ></polygon>
+    <polygon
+      points="0,300 220,140 340,210 520,90 720,210 860,160 1200,300"
+      fill="none"
+      stroke="var(--ink-soft)"
+      stroke-width="1"
+      stroke-opacity="0.3"
+    ></polygon>
+  </svg>
+
+  <div class="wrap">
+    <div class="readout-strip">
+      {dict.stats.map((stat) => (
+        <StatCounter client:visible value={stat.value} label={stat.label} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-inner {
+    padding-block: clamp(56px, 9vw, 104px) clamp(44px, 6vw, 76px);
+    position: relative;
+    z-index: 2;
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 5.6vw, 4.4rem);
+    line-height: 1;
+  }
+  .hero-title .accent {
+    color: var(--apricot);
+  }
+  .hero-lede {
+    max-width: 48ch;
+    color: var(--ink-soft);
+    font-size: 1.06rem;
+    margin-top: 20px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .peaks {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: min(40vw, 360px);
+    z-index: 1;
+    opacity: 0.85;
+  }
+  .readout-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line);
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 700px) {
+    .readout-strip {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

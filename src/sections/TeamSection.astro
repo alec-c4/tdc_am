@@ -1,0 +1,77 @@
+---
+import type { Dictionary } from "../i18n";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+const t = dict.team;
+---
+
+<section class="wrap" id="team">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2 class="section-title">{t.title}</h2>
+    </div>
+  </div>
+  <div class="team-grid">
+    {t.members.map((member) => (
+      <div class="person">
+        <div class="avatar">{member.initials}</div>
+        <h3>{member.name}</h3>
+        <div class="role">{member.role}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--line);
+  }
+  .person {
+    padding: 24px;
+    border-right: 1px solid var(--line);
+  }
+  .person:last-child {
+    border-right: none;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--stone-dim);
+    color: var(--apricot-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin-bottom: 14px;
+    font-size: 0.9rem;
+  }
+  .person h3 {
+    font-size: 1.02rem;
+  }
+  .person .role {
+    color: var(--ink-soft);
+    font-size: 0.86rem;
+    margin-top: 4px;
+  }
+  @media (max-width: 720px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+    .person {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+    }
+    .person:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

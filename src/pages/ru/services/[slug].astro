@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ServiceDetail from "../../../sections/ServiceDetail.astro";
+import CTASection from "../../../sections/CTASection.astro";
+import { getDictionary } from "../../../i18n";
+
+const locale = "ru" as const;
+const dict = getDictionary(locale);
+
+export function getStaticPaths() {
+  const dict = getDictionary("hy");
+  return dict.services.map((service) => ({ params: { slug: service.slug } }));
+}
+
+const { slug } = Astro.params;
+const index = dict.services.findIndex((s) => s.slug === slug);
+const service = dict.services[index];
+---
+
+<BaseLayout locale={locale} path={`/services/${slug}/`} title={service.title} description={service.summary}>
+  <ServiceDetail locale={locale} dict={dict} service={service} index={index} />
+  <CTASection locale={locale} dict={dict} />
+</BaseLayout>

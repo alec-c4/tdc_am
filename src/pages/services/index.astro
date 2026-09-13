@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServicesGrid from "../../sections/ServicesGrid.astro";
+import CTASection from "../../sections/CTASection.astro";
+import { getDictionary } from "../../i18n";
+
+const locale = "hy" as const;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout locale={locale} path="/services/" title={dict.servicesSection.title}>
+  <ServicesGrid locale={locale} dict={dict} headingLevel="h1" />
+  <CTASection locale={locale} dict={dict} />
+</BaseLayout>
